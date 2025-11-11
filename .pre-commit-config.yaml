@@ -1,0 +1,16 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-ast
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: check-added-large-files
+        args: ['--maxkb=1024']
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.4
+    hooks:
+      - id: ruff-check
+        args: ["--fix", "--exit-non-zero-on-fix", "--config", "pyproject.toml", "src", "tests"]
+      - id: ruff-format
+        args: ["--config", "pyproject.toml",  "src", "tests"]

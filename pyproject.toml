@@ -1,0 +1,43 @@
+[project]
+name = "device-statistics"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Max Pfeiffer",email = "max@maxpfeiffer.ch"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi (>=0.121.1,<0.122.0)"
+]
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.0.0,<10.0.0)",
+    "pre-commit (>=4.4.0,<5.0.0)"
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff.lint]
+select = [
+    "F", # Pyflakes
+    "E", # pycodestyle
+    "W", # pycodestyle
+    "I", # isort
+    "D",   # pydocstyle
+    "UP",  # pyupgrade
+    "ASYNC", # flake8-async
+    "RUF",  # Ruff-specific rules
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
