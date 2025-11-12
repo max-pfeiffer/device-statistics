@@ -9,7 +9,13 @@ license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "fastapi (>=0.121.1,<0.122.0)"
+    "fastapi[standard] (>=0.121.1,<0.122.0)",
+    "sqlmodel (>=0.0.27,<0.0.28)",
+    "alembic (>=1.17.1,<2.0.0)",
+    "psycopg2-binary (>=2.9.11,<3.0.0)",
+    "pydantic-settings (>=2.12.0,<3.0.0)",
+    "semver (>=3.0.4,<4.0.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)"
 ]
 
 [dependency-groups]
@@ -21,6 +27,10 @@ dev = [
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+src = ["app", "tests"]
+extend-exclude = ["alembic"]
 
 [tool.ruff.lint]
 select = [
