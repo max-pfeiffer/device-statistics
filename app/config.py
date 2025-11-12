@@ -2,7 +2,7 @@
 
 import semver
 from pydantic import computed_field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import URL
 
 
@@ -28,13 +28,13 @@ class DatabaseSettings(BaseSettings):
 
     user: str
     password: str
-    database_name: str
+    name: str
     rollback: bool = False
     host: str
     port: str = "5432"
 
     @computed_field
-    def database_url(self) -> URL:
+    def database_url(self) -> str:
         """URI for Postgresql database connection.
 
         :return:
@@ -44,9 +44,11 @@ class DatabaseSettings(BaseSettings):
             username=self.user,
             password=self.password,
             host=self.host,
-            database=self.database_name,
+            database=self.name,
         )
-        return url_object
+        return url_object.render_as_string()
+
+    model_config = SettingsConfigDict(env_prefix="DATABASE_", env_file=".env")
 
 
 application_settings = ApplicationSettings()
