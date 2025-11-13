@@ -29,7 +29,7 @@ class UserDeviceTypeWrite(UserDeviceTypeBase):
 class UserDeviceTypeRead(UserDeviceTypeBase):
     """UserDeviceTypeRead."""
 
-    id: UUID
+    pass
 
 
 # This model/table is for handling database schema migrations in the deployment process
