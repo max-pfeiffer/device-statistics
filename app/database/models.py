@@ -29,11 +29,11 @@ class UserDeviceTypeWrite(UserDeviceTypeBase):
 class UserDeviceTypeRead(UserDeviceTypeBase):
     """UserDeviceTypeRead."""
 
-    id: UUID
+    pass
 
 
 # This model/table is for handling database schema migrations in the deployment process
-class MigrationMetaData(SQLModel):
+class MigrationMetaData(SQLModel, table=True):
     """MigrationMetaData."""
 
     id: UUID = Field(default_factory=uuid4, primary_key=True)

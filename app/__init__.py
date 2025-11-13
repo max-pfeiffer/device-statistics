@@ -1,1 +1,1 @@
-"""Registration App."""
+"""App."""
