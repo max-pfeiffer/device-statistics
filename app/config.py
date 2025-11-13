@@ -46,9 +46,11 @@ class DatabaseSettings(BaseSettings):
             host=self.host,
             database=self.name,
         )
-        return url_object.render_as_string()
+        return url_object.render_as_string(hide_password=False)
 
-    model_config = SettingsConfigDict(env_prefix="DATABASE_", env_file=".env")
+    model_config = SettingsConfigDict(
+        env_prefix="DATABASE_", env_file="config/db-alembic.env"
+    )
 
 
 application_settings = ApplicationSettings()
