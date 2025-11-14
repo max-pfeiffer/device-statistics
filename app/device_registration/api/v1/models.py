@@ -2,18 +2,20 @@
 
 from pydantic import BaseModel
 
+from app.core.enums import DeviceType
+
 
 class UserLoginEvent(BaseModel):
     """User login event."""
 
     userKey: str
-    deviceType: str
+    deviceType: DeviceType
 
 
 class DeviceRegistrations(BaseModel):
     """Device registrations."""
 
-    deviceType: str
+    deviceType: DeviceType
     count: int
 
 

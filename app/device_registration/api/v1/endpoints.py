@@ -3,13 +3,14 @@
 from fastapi import APIRouter, BackgroundTasks, Depends
 from sqlmodel import Session
 
+from app.core.enums import DeviceType
 from app.database.config import get_session
-from device_registration.api.v1.models import (
+from app.device_registration import events
+from app.device_registration.api.v1.models import (
     DeviceRegistrations,
     SuccessResponse,
     UserLoginEvent,
 )
-from device_registration.events import device_registrations_query, user_login_command
 
 api_router = APIRouter()
 
@@ -25,14 +26,14 @@ def create_user_login_event(
     :return:
     """
     background_tasks.add_task(
-        user_login_command, user_login_event.userKey, user_login_event.deviceType
+        events.user_login_command, user_login_event.userKey, user_login_event.deviceType
     )
     return SuccessResponse()
 
 
 @api_router.get("/Log/auth/statistics")
 def get_device_registrations(
-    deviceType: str,
+    deviceType: DeviceType,
     database_session: Session = Depends(get_session),
 ) -> DeviceRegistrations:
     """Get device registrations.
@@ -41,5 +42,6 @@ def get_device_registrations(
     :param database_session:
     :return:
     """
-    response = device_registrations_query(deviceType, database_session)
+    count = events.device_registrations_query(deviceType, database_session)
+    response = DeviceRegistrations(deviceType=deviceType, count=count)
     return response

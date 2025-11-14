@@ -2,7 +2,7 @@
 
 from sqlmodel import Session
 
-from device_registration.repositories import DeviceRegistrationsRepository
+from app.device_registration.repositories import DeviceRegistrationsRepository
 
 
 def user_login_command(user_key: str, device_type: str) -> None:
@@ -15,13 +15,18 @@ def user_login_command(user_key: str, device_type: str) -> None:
     pass
 
 
-def device_registrations_query(
-    device_type: str, database_session: Session
-) -> tuple[str, int]:
-    """Device registrations query.
+def device_registrations_query(device_type: str, database_session: Session) -> int:
+    """Query for device registrations.
 
     :param device_type:
+    :param database_session:
+    :return:
     """
-    repo = DeviceRegistrationsRepository(database_session)
-    amount = repo.get_device_type_amount(device_type)
-    return device_type, amount
+    with database_session.begin():
+        repo = DeviceRegistrationsRepository(database_session)
+        count = repo.get_device_type_count(device_type)
+
+    if count == 0:
+        return -1
+    else:
+        return count
