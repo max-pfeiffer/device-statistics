@@ -1,8 +1,11 @@
 """Device registration events."""
 
+from furl import furl
+from httpx import post
 from sqlmodel import Session
 
-from app.device_registration.repositories import DeviceRegistrationsRepository
+from core.repositories import DeviceRegistrationsRepository
+from device_registration.config import application_settings
 
 
 def user_login_command(user_key: str, device_type: str) -> None:
@@ -12,7 +15,16 @@ def user_login_command(user_key: str, device_type: str) -> None:
     :param device_type:
     :return:
     """
-    pass
+    furl_item: furl = furl(application_settings.api_statistics_base_url)
+    furl_item.path /= application_settings.api_statistics_path_device_registrations
+
+    payload = {
+        "userKey": user_key,
+        "deviceType": device_type,
+    }
+
+    response = post(furl_item.url, json=payload)
+    response.raise_for_status()
 
 
 def device_registrations_query(device_type: str, database_session: Session) -> int:
