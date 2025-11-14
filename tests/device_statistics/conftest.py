@@ -86,7 +86,41 @@ def jwt_string(rsa_keys: tuple[str, str]) -> str:
     private_key = rsa_keys[0]
 
     header = {"alg": "RS256"}
-    payload = {"iss": IDP_ISS}
+    payload = {"iss": IDP_ISS, "scope": ["login", "statistics"]}
+
+    token_bytes = jwt.encode(header, payload, private_key)
+    token_string = token_bytes.decode("utf-8")
+    return token_string
+
+
+@pytest.fixture
+def jwt_string_login_scope(rsa_keys: tuple[str, str]) -> str:
+    """JWT fixture.
+
+    :param rsa_keys:
+    :return:
+    """
+    private_key = rsa_keys[0]
+
+    header = {"alg": "RS256"}
+    payload = {"iss": IDP_ISS, "scope": ["login"]}
+
+    token_bytes = jwt.encode(header, payload, private_key)
+    token_string = token_bytes.decode("utf-8")
+    return token_string
+
+
+@pytest.fixture
+def jwt_string_statistics_scope(rsa_keys: tuple[str, str]) -> str:
+    """JWT fixture.
+
+    :param rsa_keys:
+    :return:
+    """
+    private_key = rsa_keys[0]
+
+    header = {"alg": "RS256"}
+    payload = {"iss": IDP_ISS, "scope": ["statistics"]}
 
     token_bytes = jwt.encode(header, payload, private_key)
     token_string = token_bytes.decode("utf-8")

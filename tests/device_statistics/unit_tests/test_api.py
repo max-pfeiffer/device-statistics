@@ -69,6 +69,32 @@ def test_api_endpoint_create_user_login_event(
         mocked_background_task_call.assert_not_called()
 
 
+def test_api_endpoint_create_user_login_event_wrong_scope(
+    device_statistics_fast_api_test_client: TestClient,
+    jwt_string_statistics_scope: str,
+) -> None:
+    """Test API endpoint create user login event.
+
+    Test with wrong scope.
+
+    :param device_statistics_fast_api_test_client:
+    :param jwt_string_statistics_scope:
+    :return:
+    """
+    headers = {
+        "Authorization": f"Bearer {jwt_string_statistics_scope}",
+    }
+    payload = {
+        "userKey": "foo",
+        "deviceType": "Android",
+    }
+
+    response = device_statistics_fast_api_test_client.post(
+        "/device-statistics/v1/Log/auth", json=payload, headers=headers
+    )
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+
+
 @pytest.mark.parametrize(
     "params,expected_status_code,expected_response",
     [
@@ -129,3 +155,28 @@ def test_api_endpoint_get_device_registrations(
         mocked_device_registrations_query.assert_called_once()
     else:
         mocked_device_registrations_query.assert_not_called()
+
+
+def test_api_endpoint_get_device_registrations_wrong_scope(
+    device_statistics_fast_api_test_client: TestClient,
+    jwt_string_login_scope: str,
+) -> None:
+    """Test API endpoint for get device registrations.
+
+    Test with wrong scope.
+
+    :param device_statistics_fast_api_test_client:
+    :param jwt_string_login_scope:
+    :return:
+    """
+    headers = {
+        "Authorization": f"Bearer {jwt_string_login_scope}",
+    }
+    params = {
+        "deviceType": "Android",
+    }
+
+    response = device_statistics_fast_api_test_client.get(
+        "/device-statistics/v1/Log/auth/statistics", params=params, headers=headers
+    )
+    assert response.status_code == status.HTTP_403_FORBIDDEN

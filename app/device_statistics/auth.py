@@ -5,8 +5,9 @@ import logging
 from authlib.jose import JsonWebToken
 from authlib.jose.errors import JoseError
 from fastapi.exceptions import HTTPException
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from fastapi.security import HTTPBearer
 from fastapi.security.utils import get_authorization_scheme_param
+from pydantic import BaseModel
 from starlette.requests import Request
 from starlette.status import HTTP_401_UNAUTHORIZED
 
@@ -15,10 +16,17 @@ from app.device_statistics.config import statistics_application_settings
 logger = logging.getLogger(__name__)
 
 
+class Scopes(BaseModel):
+    """Scopes."""
+
+    scopes: list[str]
+    path: str
+
+
 class JwtBearerAuth(HTTPBearer):
     """Handling authentication for JWT Bearer Authorization."""
 
-    async def __call__(self, request: Request) -> HTTPAuthorizationCredentials | None:
+    async def __call__(self, request: Request) -> Scopes | None:
         """Handle JWT Bearer Authorization.
 
         :param request:
@@ -58,4 +66,7 @@ class JwtBearerAuth(HTTPBearer):
                 status_code=HTTP_401_UNAUTHORIZED,
                 detail="Invalid authentication credentials",
             )
-        return HTTPAuthorizationCredentials(scheme=scheme, credentials=credentials)
+        # Getting the scopes Keycloak style
+        scopes = claims.get("scope", [])
+
+        return Scopes(scopes=scopes, path=request.url.path)
