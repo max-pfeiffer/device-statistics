@@ -5,14 +5,12 @@ from pydantic import computed_field
 from pydantic_settings import BaseSettings
 
 
-class ApplicationSettings(BaseSettings):
+class DeviceRegistrationApplicationSettings(BaseSettings):
     """Application settings."""
 
     title: str = "Device Registration"
     description: str = "REST API for device registrations."
     version: str = "1.0.0"
-    api_statistics_base_url: str
-    api_statistics_path_device_register: str
 
     @computed_field
     def api_prefix(self) -> str:
@@ -24,4 +22,4 @@ class ApplicationSettings(BaseSettings):
         return f"/v{version.major}"
 
 
-application_settings = ApplicationSettings()
+device_registration_application_settings = DeviceRegistrationApplicationSettings()

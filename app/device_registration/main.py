@@ -6,14 +6,14 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from furl import furl
 
 from app.device_registration.api.v1.endpoints import api_router
-from app.device_registration.api.v1.models import ErrorResponse
-from app.device_registration.config import application_settings
+from app.device_registration.api.v1.models import BadRequestResponse
+from app.device_registration.config import device_registration_application_settings
 
 app = FastAPI(
-    title=application_settings.title,
-    description=application_settings.description,
-    version=application_settings.version,
-    root_path="/device_registration",
+    title=device_registration_application_settings.title,
+    description=device_registration_application_settings.description,
+    version=device_registration_application_settings.version,
+    root_path="/device-registration",
 )
 
 
@@ -25,7 +25,7 @@ async def validation_exception_handler(request, exc):
     :param exc:
     :return:
     """
-    content = ErrorResponse().model_dump()
+    content = BadRequestResponse().model_dump()
     return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=content)
 
 
@@ -43,4 +43,6 @@ def redirect_to_autodocs(request: Request) -> RedirectResponse:
     )
 
 
-app.include_router(api_router, prefix=application_settings.api_prefix)
+app.include_router(
+    api_router, prefix=device_registration_application_settings.api_prefix
+)

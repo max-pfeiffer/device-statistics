@@ -5,15 +5,15 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, RedirectResponse
 from furl import furl
 
-from app.statistics.api.v1.endpoints import api_router
-from app.statistics.api.v1.models import BadRequestResponse
-from app.statistics.config import application_settings
+from app.device_statistics.api.v1.endpoints import api_router
+from app.device_statistics.api.v1.models import ErrorResponse
+from app.device_statistics.config import statistics_application_settings
 
 app = FastAPI(
-    title=application_settings.title,
-    description=application_settings.description,
-    version=application_settings.version,
-    root_path="/statistics",
+    title=statistics_application_settings.title,
+    description=statistics_application_settings.description,
+    version=statistics_application_settings.version,
+    root_path="/device-statistics",
 )
 
 
@@ -25,7 +25,7 @@ async def validation_exception_handler(request, exc):
     :param exc:
     :return:
     """
-    content = BadRequestResponse().model_dump()
+    content = ErrorResponse().model_dump()
     return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=content)
 
 
@@ -43,4 +43,4 @@ def redirect_to_autodocs(request: Request) -> RedirectResponse:
     )
 
 
-app.include_router(api_router, prefix=application_settings.api_prefix)
+app.include_router(api_router, prefix=statistics_application_settings.api_prefix)
