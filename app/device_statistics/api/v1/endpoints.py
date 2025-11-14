@@ -11,8 +11,11 @@ from app.device_statistics.api.v1.models import (
     SuccessResponse,
     UserLoginEvent,
 )
+from app.device_statistics.auth import JwtBearerAuth
 
-api_router = APIRouter()
+jwt_bearer_auth = JwtBearerAuth()
+
+api_router = APIRouter(dependencies=[Depends(jwt_bearer_auth)])
 
 
 @api_router.post("/Log/auth")

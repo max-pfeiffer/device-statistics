@@ -40,6 +40,7 @@ def test_api_endpoint_create_user_login_event(
     payload: dict[str, str],
     expected_status_code: int,
     expected_response: dict[str, str],
+    jwt_string: str,
 ) -> None:
     """Test API endpoint create user login event.
 
@@ -53,8 +54,12 @@ def test_api_endpoint_create_user_login_event(
     mocked_background_task_call = mocker.patch(
         "app.device_statistics.api.v1.endpoints.BackgroundTasks.add_task"
     )
+    headers = {
+        "Authorization": f"Bearer {jwt_string}",
+    }
+
     response = device_statistics_fast_api_test_client.post(
-        "/device-statistics/v1/Log/auth", json=payload
+        "/device-statistics/v1/Log/auth", json=payload, headers=headers
     )
     assert response.status_code == expected_status_code
     assert response.json() == expected_response
@@ -96,6 +101,7 @@ def test_api_endpoint_get_device_registrations(
     params: dict[str, str],
     expected_status_code: int,
     expected_response: dict[str, str],
+    jwt_string: str,
 ) -> None:
     """Test API endpoint for get device registrations.
 
@@ -110,8 +116,12 @@ def test_api_endpoint_get_device_registrations(
         "app.device_statistics.api.v1.endpoints.events.device_registrations_query",
         return_value=10,
     )
+    headers = {
+        "Authorization": f"Bearer {jwt_string}",
+    }
+
     response = device_statistics_fast_api_test_client.get(
-        "/device-statistics/v1/Log/auth/statistics", params=params
+        "/device-statistics/v1/Log/auth/statistics", params=params, headers=headers
     )
     assert response.status_code == expected_status_code
     assert response.json() == expected_response

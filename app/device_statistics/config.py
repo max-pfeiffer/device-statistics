@@ -15,6 +15,8 @@ class StatisticsApplicationSettings(BaseSettings):
         "http://localhost:9000/device-registration/v1"
     )
     api_device_registration_path_device_register: str = "Device/register"
+    idp_iss: str
+    idp_public_key: str
 
     @computed_field
     def api_prefix(self) -> str:
