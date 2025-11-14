@@ -1,27 +1,20 @@
-"""Device registration events."""
+"""Events."""
 
 from sqlmodel import Session
 
-from device_registration.repositories import DeviceRegistrationsRepository
+from app.core.repositories import DeviceRegistrationsRepository
 
 
-def user_login_command(user_key: str, device_type: str) -> None:
-    """User login command.
+def create_device_registration_event(
+    user_key: str, device_type: str, database_session: Session
+) -> None:
+    """Device registration event.
 
     :param user_key:
     :param device_type:
+    :param database_session:
     :return:
     """
-    pass
-
-
-def device_registrations_query(
-    device_type: str, database_session: Session
-) -> tuple[str, int]:
-    """Device registrations query.
-
-    :param device_type:
-    """
-    repo = DeviceRegistrationsRepository(database_session)
-    amount = repo.get_device_type_amount(device_type)
-    return device_type, amount
+    with database_session.begin():
+        repo = DeviceRegistrationsRepository(database_session)
+        repo.create_or_update_device_registrations(user_key, device_type)

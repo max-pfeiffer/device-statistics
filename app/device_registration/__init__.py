@@ -1,1 +1,1 @@
-"""Device registrations."""
+"""Statistics."""

@@ -1,1 +1,1 @@
-"""Device Registration API."""
+"""API."""

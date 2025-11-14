@@ -21,8 +21,10 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "pytest (>=9.0.0,<10.0.0)",
-    "pre-commit (>=4.4.0,<5.0.0)"
+    "pre-commit (>=4.4.0,<5.0.0)",
+    "pytest-mock (>=3.15.1,<4.0.0)",
+    "pytest-cov (>=7.0.0,<8.0.0)",
+    "pytest (>=9.0.1,<10.0.0)"
 ]
 
 [build-system]
@@ -48,7 +50,7 @@ select = [
 [tool.ruff.lint.pydocstyle]
 convention = "pep257"
 
-[tool.pytest.ini_options]
+[tool.pytest]
 testpaths = [
     "tests",
 ]
