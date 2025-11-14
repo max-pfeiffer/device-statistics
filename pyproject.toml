@@ -16,7 +16,8 @@ dependencies = [
     "pydantic-settings (>=2.12.0,<3.0.0)",
     "semver (>=3.0.4,<4.0.0)",
     "python-dotenv (>=1.2.1,<2.0.0)",
-    "furl (>=2.1.4,<3.0.0)"
+    "furl (>=2.1.4,<3.0.0)",
+    "authlib (>=1.6.5,<2.0.0)"
 ]
 
 [dependency-groups]
