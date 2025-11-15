@@ -1,0 +1,9 @@
+.github
+.venv
+.coverage
+.pre-commit-config.yaml
+config
+tests
+Dockerfile
+README.md
+makejwt.sh
