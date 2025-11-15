@@ -11,10 +11,8 @@ class StatisticsApplicationSettings(BaseSettings):
     title: str = "Statistics"
     description: str = "REST API for statistics."
     version: str = "1.0.0"
-    api_device_registration_base_url: str = (
-        "http://localhost:9000/device-registration/v1"
-    )
-    api_device_registration_path_device_register: str = "Device/register"
+    api_device_registration_base_url: str
+    api_device_registration_path_device_register: str
     idp_iss: str
     idp_public_key: str
 

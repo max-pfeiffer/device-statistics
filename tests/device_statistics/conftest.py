@@ -36,7 +36,9 @@ def rsa_keys() -> tuple[str, str]:
 
 
 @pytest.fixture
-def device_statistics_environment(monkeypatch, rsa_keys: tuple[str, str]) -> None:
+def device_statistics_environment(
+    monkeypatch: pytest.MonkeyPatch, rsa_keys: tuple[str, str]
+) -> None:
     """Set up device registration environment variables.
 
     :return:

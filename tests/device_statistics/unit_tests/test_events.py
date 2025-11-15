@@ -4,11 +4,12 @@ from unittest.mock import MagicMock
 
 import pytest
 from app.core.enums import DeviceType
+from pytest_mock import MockerFixture
 
 
 @pytest.mark.parametrize("repo_result, expected_result", [(15, 15), (0, -1)])
 def test_device_registrations_query(
-    mocker, device_statistics_environment, repo_result, expected_result
+    mocker: MockerFixture, device_statistics_environment, repo_result, expected_result
 ) -> None:
     """Test device registrations query event.
 

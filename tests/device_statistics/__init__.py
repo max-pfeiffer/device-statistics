@@ -1,1 +1,1 @@
-"""Device registration tests."""
+"""Device statistic tests."""

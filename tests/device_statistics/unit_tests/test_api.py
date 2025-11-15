@@ -3,6 +3,7 @@
 import pytest
 from fastapi import status
 from fastapi.testclient import TestClient
+from pytest_mock import MockerFixture
 
 
 @pytest.mark.parametrize(
@@ -35,7 +36,7 @@ from fastapi.testclient import TestClient
     ],
 )
 def test_api_endpoint_create_user_login_event(
-    mocker,
+    mocker: MockerFixture,
     device_statistics_fast_api_test_client: TestClient,
     payload: dict[str, str],
     expected_status_code: int,
