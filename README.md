@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/max-pfeiffer/device-statistics/graph/badge.svg?token=1jfd6K3L4s)](https://codecov.io/gh/max-pfeiffer/device-statistics)
 # device-statistics
 
 ## Local Development
