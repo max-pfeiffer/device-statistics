@@ -45,6 +45,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
+      - name: Get Git Commit Tag Name
+        uses: olegtarasov/get-tag@v2.1.4
       - name: Set up Python environment
         uses: ./.github/actions/setup-environment
       - name: Install dependencies
