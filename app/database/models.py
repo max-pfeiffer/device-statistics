@@ -20,18 +20,6 @@ class UserDeviceType(UserDeviceTypeBase, table=True):
     created_at: datetime
 
 
-class UserDeviceTypeWrite(UserDeviceTypeBase):
-    """UserDeviceTypeWrite."""
-
-    pass
-
-
-class UserDeviceTypeRead(UserDeviceTypeBase):
-    """UserDeviceTypeRead."""
-
-    pass
-
-
 # This model/table is for handling database schema migrations in the deployment process
 class MigrationMetaData(SQLModel, table=True):
     """MigrationMetaData."""
