@@ -5,6 +5,7 @@ from python_on_whales import Builder, DockerClient
 
 PLATFORMS = ["linux/amd64", "linux/arm64/v8"]
 
+
 @click.command()
 @click.option(
     "--docker-hub-username",
