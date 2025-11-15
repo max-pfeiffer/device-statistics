@@ -36,3 +36,23 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  publish-docker-image:
+    needs:
+      - run-unit-tests
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+      - name: Set up Python environment
+        uses: ./.github/actions/setup-environment
+      - name: Install dependencies
+        run: |
+          poetry install --no-interaction --no-root
+      - name: Build and publish Images to Docker Hub
+        env:
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+        run: |          
+          poetry run python publish

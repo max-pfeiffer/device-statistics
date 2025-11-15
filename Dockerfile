@@ -1,6 +1,6 @@
 # Using an image for dependency build stage which provides Poetry
 # see: https://github.com/max-pfeiffer/python-poetry/blob/main/build/Dockerfile
-FROM pfeiffermax/python-poetry:1.15.0-poetry2.1.1-python3.13.2-slim-bookworm as dependencies-build-stage
+FROM pfeiffermax/python-poetry:1.16.0-poetry2.2.1-python3.13.9-bookworm AS dependencies-build-stage
 ENV POETRY_VIRTUALENVS_IN_PROJECT=true \
     POETRY_CACHE_DIR="/application_root/.cache" \
     PYTHONPATH=/application_root
@@ -14,11 +14,10 @@ WORKDIR ${PYTHONPATH}
 # this will install virtual environment into /.venv because of POETRY_VIRTUALENVS_IN_PROJECT=true
 # see: https://python-poetry.org/docs/configuration/#virtualenvsin-project
 COPY pyproject.toml ${PYTHONPATH}
-#RUN poetry install --no-interaction --no-root --without=dev
-RUN poetry install --no-interaction --no-root
+RUN poetry install --no-interaction --no-root --without=dev
 
 # Using the standard Python image here to have the least possible image size
-FROM python:3.13.9-slim-trixie as production-image
+FROM python:3.13.9-slim-trixie AS production-image
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONPATH=/application_root \
