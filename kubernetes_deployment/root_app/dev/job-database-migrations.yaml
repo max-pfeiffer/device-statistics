@@ -19,7 +19,7 @@ spec:
   source:
     repoURL: https://github.com/max-pfeiffer/device-statistics.git
     path: kubernetes_deployment/helm-charts/ds-job
-    targetRevision: "feature/kubernetes-deployment"
+    targetRevision: "main"
     helm:
       valueFiles:
         - ../../helm-values/dev/job-database-migrations.yaml
