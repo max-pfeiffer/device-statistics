@@ -1,0 +1,8 @@
+architecture: "standalone"
+auth:
+  existingSecret: "postgresql"
+  database: "devicestatistics"
+  username: "testuser"
+primary:
+  persistence:
+    size: 200M

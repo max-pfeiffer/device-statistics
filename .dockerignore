@@ -6,4 +6,4 @@ config
 tests
 Dockerfile
 README.md
-makejwt.sh
+jwt/makejwt.sh
