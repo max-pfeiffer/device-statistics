@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgresql
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "50"
+spec:
+  project: dev
+  syncPolicy:
+    automated: {}
+  destination:
+    namespace: dev
+    server: https://kubernetes.default.svc
+  source:
+    chart: postgresql
+    repoURL: "oci://harbor.lan/docker-hub-cache/bitnamicharts"
+    targetRevision: 18.1.4
+    helm:
+      valueFiles:
+        - ../../helm-values/dev/postgresql.yaml
