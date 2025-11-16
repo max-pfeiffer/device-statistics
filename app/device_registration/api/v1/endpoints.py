@@ -1,16 +1,19 @@
 """API endpoints."""
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from sqlmodel import Session
 
 from app.database.config import get_session
 from app.device_registration.api.v1.models import (
+    BadRequestResponse,
     DeviceRegistrationEvent,
     SuccessResponse,
 )
 from app.device_registration.events import create_device_registration_event
 
-api_router = APIRouter()
+api_router = APIRouter(
+    responses={status.HTTP_400_BAD_REQUEST: {"model": BadRequestResponse}},
+)
 
 
 @api_router.post("/Device/register")

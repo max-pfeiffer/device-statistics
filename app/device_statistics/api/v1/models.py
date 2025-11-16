@@ -26,7 +26,7 @@ class SuccessResponse(BaseModel):
     message: int = "success"
 
 
-class ErrorResponse(BaseModel):
+class BadRequestResponse(BaseModel):
     """Error response."""
 
     statusCode: int = 400
