@@ -10,6 +10,7 @@ from app.core.enums import DeviceType
 from app.database.config import get_session
 from app.device_statistics import events
 from app.device_statistics.api.v1.models import (
+    BadRequestResponse,
     DeviceRegistrations,
     SuccessResponse,
     UserLoginEvent,
@@ -18,7 +19,9 @@ from app.device_statistics.auth import JwtBearerAuth, Scopes
 
 jwt_bearer_auth = JwtBearerAuth()
 
-api_router = APIRouter()
+api_router = APIRouter(
+    responses={status.HTTP_400_BAD_REQUEST: {"model": BadRequestResponse}},
+)
 
 
 @api_router.post("/Log/auth")
