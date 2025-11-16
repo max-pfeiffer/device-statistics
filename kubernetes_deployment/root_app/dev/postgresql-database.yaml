@@ -19,5 +19,12 @@ spec:
     repoURL: "oci://registry-1.docker.io/bitnamicharts/postgresql"
     targetRevision: "18.1.4"
     helm:
-      valueFiles:
-        - ../../helm-values/dev/postgresql.yaml
+      valuesObject:
+        architecture: "standalone"
+        auth:
+          existingSecret: "postgresql"
+          database: "devicestatistics"
+          username: "testuser"
+        primary:
+          persistence:
+            size: 200M
