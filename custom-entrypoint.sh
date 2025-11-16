@@ -14,8 +14,8 @@ case ${1} in
 
   database-migrations)
     cd "$PYTHONPATH" || return 100
-    if [ "$ALEMBIC_MIGRATION_REVISION" = "true" ]; then
-      alembic downgrade "$ALEMBIC_MIGRATION_ROLLBACK" || return $?
+    if [ "$DATABASE_ALEMBIC_MIGRATION_ROLLBACK" = "true" ]; then
+      alembic downgrade "$DATABASE_ALEMBIC_MIGRATION_REVISION" || return $?
     else
       alembic upgrade head || return $?
       alembic check || return $?
