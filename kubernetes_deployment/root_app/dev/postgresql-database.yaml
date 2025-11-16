@@ -16,7 +16,7 @@ spec:
     server: https://kubernetes.default.svc
   source:
     chart: postgresql
-    repoURL: "oci://harbor.lan/docker-hub-cache/bitnamicharts"
+    repoURL: "oci://registry-1.docker.io/bitnamicharts"
     insecureSkipTLSVerify: true
     targetRevision: 18.1.4
     helm:
