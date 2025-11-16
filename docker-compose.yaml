@@ -5,6 +5,12 @@ services:
       - "5432:5432"
     env_file:
       - config/db.env
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U $POSTGRESQL_USERNAME -d $POSTGRESQL_DATABASE'"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
   database-migrations:
     image: database-migrations:latest
     build:
@@ -13,7 +19,8 @@ services:
       - config/db-alembic.env
     command: database-migrations
     depends_on:
-      - postgresql
+      postgresql:
+        condition: service_healthy
   device-statistics:
     image: device-statistics:latest
     build:
@@ -21,7 +28,7 @@ services:
     ports: ["8000:8000"]
     env_file:
       - config/device-statistics-app.env
-    command: device-statistics 8000
+    command: device-statistics
     depends_on:
       - database-migrations
       - device-registration
@@ -32,6 +39,6 @@ services:
     ports: ["9000:9000"]
     env_file:
       - config/device-registration-app.env
-    command: device-registration 9000
+    command: device-registration
     depends_on:
       - database-migrations

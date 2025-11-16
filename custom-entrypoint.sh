@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-UVICORN_PORT=${2:-"8000"}
 
 case ${1} in
   device-statistics)
@@ -15,8 +14,8 @@ case ${1} in
 
   database-migrations)
     cd "$PYTHONPATH" || return 100
-    if [ "$DATABASE_ROLLBACK" = "true" ]; then
-      alembic downgrade -1 || return $?
+    if [ "$ALEMBIC_MIGRATION_REVISION" = "true" ]; then
+      alembic downgrade "$ALEMBIC_MIGRATION_ROLLBACK" || return $?
     else
       alembic upgrade head || return $?
       alembic check || return $?
