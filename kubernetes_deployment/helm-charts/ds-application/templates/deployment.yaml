@@ -40,6 +40,11 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ include "ds-application.fullname" . }}
+            - secretRef:
+                name: "{{ .Values.secretRefName }}"
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
