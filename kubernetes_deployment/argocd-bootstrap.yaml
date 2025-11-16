@@ -11,9 +11,9 @@ spec:
     server: https://kubernetes.default.svc
     namespace: argocd
   source:
-    repoURL: git@github.com:max-pfeiffer/device-statistics.git
-    targetRevision: main
+    repoURL: https://github.com/max-pfeiffer/device-statistics.git
     path: kubernetes_deployment/root_app
+    targetRevision: "feature/kubernetes-deployment"
     directory:
       recurse: true
   syncPolicy:

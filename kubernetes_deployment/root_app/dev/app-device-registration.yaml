@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: device-registration
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"
+spec:
+  project: dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  destination:
+    namespace: dev
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://github.com/max-pfeiffer/device-statistics.git
+    path: kubernetes_deployment/helm-charts/ds-application
+    targetRevision: "feature/kubernetes-deployment"
+    helm:
+      valueFiles:
+        - ../../helm-values/dev/api-device-registration.yaml
