@@ -1,19 +1,5 @@
-replicaCount: 2
-
 image:
     tag: "0.2.0"
-
-service:
-  port: 8000
-
-livenessProbe:
-  httpGet:
-    path: /
-    port: 8000
-readinessProbe:
-  httpGet:
-    path: /
-    port: 8000
 
 configMap:
     DATABASE_NAME: "devicestatistics"
@@ -23,5 +9,5 @@ configMap:
     DATABASE_ALEMBIC_MIGRATION_REVISION: "INVALID"
     UVICORN_PORT: "8000"
 
-secretRefName: "device-registration"
-applicationType: "device-registration"
+secretRefName: "database-migrations"
+applicationType: "database-migrations"
