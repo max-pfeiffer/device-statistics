@@ -19,6 +19,15 @@ ingress:
           hosts:
               - device-statistics.lan
 
+livenessProbe:
+  httpGet:
+    path: /
+    port: 8000
+readinessProbe:
+  httpGet:
+    path: /
+    port: 8000
+
 configMap:
     DATABASE_NAME: "devicestatistics"
     DATABASE_HOST: "postgresql"
@@ -30,3 +39,4 @@ configMap:
     UVICORN_PORT: "8000"
 
 secretRefName: "device-statistics"
+applicationType: "device-statistics"
