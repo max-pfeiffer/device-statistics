@@ -18,13 +18,3 @@ class UserDeviceType(UserDeviceTypeBase, table=True):
 
     id: UUID = Field(default_factory=uuid4, primary_key=True)
     created_at: datetime
-
-
-# This model/table is for handling database schema migrations in the deployment process
-class MigrationMetaData(SQLModel, table=True):
-    """MigrationMetaData."""
-
-    id: UUID = Field(default_factory=uuid4, primary_key=True)
-    after_migration_revision: str
-    before_migration_revision: str
-    rolled_back: str

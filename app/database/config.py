@@ -16,9 +16,10 @@ class DatabaseSettings(BaseSettings):
     user: str
     password: str
     name: str
-    rollback: bool = False
     host: str
     port: str = "5432"
+    alembic_migration_rollback: bool = False
+    alembic_migration_revision: str = "INVALID"
 
     @computed_field
     def database_url(self) -> str:

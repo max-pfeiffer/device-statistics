@@ -16,4 +16,4 @@ SIGNATURE=$(printf '%s' "$DATA" \
   | openssl dgst -sha256 -sign private.pem \
   | b64url)
 
-echo "${DATA}.${SIGNATURE}"
+echo "${DATA}.${SIGNATURE}" | tee jwt.txt

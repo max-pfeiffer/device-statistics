@@ -3,7 +3,11 @@
 
 ## Local Development
 Create .env files in `config` directory according to the examples. Use the script `makejwt.sh` to create a JWT
-that you can use for local testing. Add contents of `public.pem` to IDP_PUBLIC_KEY in `device-statistics-app.env`.
+that you can use for local testing:
+```shell
+./makejwt.sh '{"iss": "https://auth.test.com", "scope": ["login", "statistics"]}'
+```
+Add contents of `public.pem` to IDP_PUBLIC_KEY in `device-statistics-app.env`.
 
 Start the local Postgresql database with Docker compose:
 ```shell
