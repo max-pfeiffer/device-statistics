@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.namePrefix }}-device-statistics
+  labels:
+    app: device-statistics
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  replicas: {{ .Values.replicaCount.deviceStatistics }}
+  selector:
+    matchLabels:
+      app: device-statistics
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: device-statistics
+    spec:
+      containers:
+        - name: device-statistics
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          args: ["device-statistics"]
+          readinessProbe:  
+            httpGet:
+              path: /healthy
+              port: {{ .Values.service.port }}
+          livenessProbe:
+            httpGet:
+              path: /ready
+              port: {{ .Values.service.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.env.deviceStatistics.configMapRefName }}
+            - secretRef:
+                name: {{ .Values.env.deviceStatistics.secretRefName }}
+          resources:
+            {{- toYaml .Values.resources.apps | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+          {{- with .Values.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      securityContext:
+        {{- toYaml .Values.securityContext | nindent 8 }}
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

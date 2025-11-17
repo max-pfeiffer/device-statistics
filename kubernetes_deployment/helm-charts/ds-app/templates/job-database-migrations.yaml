@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.namePrefix }}-database-migrations
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+  labels:
+    app: database-migrations
+spec:
+  template:
+    metadata:
+      labels:
+        app: database-migrations
+    spec:
+      containers:
+        - name: database-migrations
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: ["database-migrations"]
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.env.databaseMigrations.configMapRefName }}
+            - secretRef:
+                name: {{ .Values.env.databaseMigrations.secretRefName }}
+          resources:
+            {{- toYaml .Values.resources.jobs | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+      securityContext:
+        {{- toYaml .Values.securityContext | nindent 8 }}
+      activeDeadlineSeconds: 600
+      restartPolicy: Never
+  backoffLimit: 0
+  activeDeadlineSeconds: 1800

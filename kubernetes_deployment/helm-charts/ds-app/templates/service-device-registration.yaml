@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.namePrefix }}-device-registration
+  labels:
+    app: device-registration
+spec:
+  selector:
+    app: device-registration
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: 80
+      targetPort: {{ .Values.service.port }}
+      protocol: TCP
