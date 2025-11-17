@@ -18,6 +18,7 @@ spec:
     chart: postgresql
     repoURL: "oci://registry-1.docker.io/bitnamicharts/postgresql"
     targetRevision: "18.1.4"
+    releaseName: postgresql
     helm:
       valuesObject:
         architecture: "standalone"

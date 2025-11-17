@@ -1,0 +1,28 @@
+ingress:
+    className: nginx
+    annotations:
+      cert-manager.io/issuer: step-issuer
+      cert-manager.io/issuer-kind: StepClusterIssuer
+      cert-manager.io/issuer-group: certmanager.step.sm
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    hosts:
+        - host: prod-device-statistics.lan
+          paths:
+            - path: /
+              pathType: Prefix
+    tls:
+        - secretName: prod-device-statistics-tls
+          hosts:
+              - prod-device-statistics.lan
+
+env:
+  deviceStatistics:
+    configMapRefName: "device-statistics"
+    secretRefName: "device-statistics"
+  deviceRegistration:
+    configMapRefName: "device-registration"
+    secretRefName: "device-registration"
+  databaseMigrations:
+    configMapRefName: "database-migrations"
+    secretRefName: "database-migrations"
+
