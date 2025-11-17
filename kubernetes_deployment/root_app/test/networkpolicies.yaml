@@ -134,6 +134,31 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
+  name: database-migrations
+  namespace: test
+  annotations:
+    argocd.argoproj.io/sync-wave: "-300"
+spec:
+  podSelector:
+    matchLabels:
+      app: database-migrations
+  policyTypes:
+  - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: test
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: postgresql
+      ports:
+        - protocol: TCP
+          port: 5432
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
   name: postgresql
   namespace: test
   annotations:
