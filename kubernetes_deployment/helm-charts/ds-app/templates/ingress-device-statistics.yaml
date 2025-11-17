@@ -1,10 +1,9 @@
-{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "ds-application.fullname" . }}
+  name: {{ .Values.namePrefix }}-device-statistics
   labels:
-    {{- include "ds-application.labels" . | nindent 4 }}
+    app: device-statistics
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -35,9 +34,8 @@ spec:
             {{- end }}
             backend:
               service:
-                name: {{ include "ds-application.fullname" $ }}
+                name: {{ $.Values.namePrefix }}-device-statistics
                 port:
                   number: {{ $.Values.service.port }}
           {{- end }}
     {{- end }}
-{{- end }}

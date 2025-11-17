@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.namePrefix }}-device-statistics
+  labels:
+    app: device-statistics
+spec:
+  selector:
+    app: device-statistics
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: 80
+      targetPort: {{ .Values.service.port }}
+      protocol: TCP

@@ -1,18 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: dev-postgresql
+  name: test-postgresql
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "-200"
 spec:
-  project: dev
+  project: test
   syncPolicy:
     automated: {}
   destination:
-    namespace: dev
+    namespace: test
     server: https://kubernetes.default.svc
   source:
     chart: postgresql

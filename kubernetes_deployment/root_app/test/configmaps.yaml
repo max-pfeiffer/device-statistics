@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: device-statistics
+  namespace: test
+  annotations:
+    argocd.argoproj.io/sync-wave: "-300"
+data:
+    DATABASE_NAME: "devicestatistics"
+    DATABASE_HOST: "postgresql"
+    DATABASE_PORT: "5432"
+    DATABASE_ALEMBIC_MIGRATION_ROLLBACK: "false"
+    DATABASE_ALEMBIC_MIGRATION_REVISION: "INVALID"
+    API_DEVICE_REGISTRATION_BASE_URL: "http://ds-app-device-registration:80/device-registration/v1"
+    API_DEVICE_REGISTRATION_PATH_DEVICE_REGISTER: "Device/register"
+    UVICORN_PORT: "8000"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: device-registration
+  namespace: test
+  annotations:
+    argocd.argoproj.io/sync-wave: "-300"
+data:
+    DATABASE_NAME: "devicestatistics"
+    DATABASE_HOST: "postgresql"
+    DATABASE_PORT: "5432"
+    DATABASE_ALEMBIC_MIGRATION_ROLLBACK: "false"
+    DATABASE_ALEMBIC_MIGRATION_REVISION: "INVALID"
+    UVICORN_PORT: "8000"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: database-migrations
+  namespace: test
+  annotations:
+    argocd.argoproj.io/sync-wave: "-300"
+data:
+    DATABASE_NAME: "devicestatistics"
+    DATABASE_HOST: "postgresql"
+    DATABASE_PORT: "5432"
+    DATABASE_ALEMBIC_MIGRATION_ROLLBACK: "false"
+    DATABASE_ALEMBIC_MIGRATION_REVISION: "INVALID"
+    UVICORN_PORT: "8000"
+

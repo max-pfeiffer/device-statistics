@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ds-app
+description: Device Statistics APIs
+type: application
+version: 1.0.0
+appVersion: "0.3.0"
