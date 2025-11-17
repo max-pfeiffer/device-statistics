@@ -40,7 +40,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: device-statistics
+  name: device-statistics-allow
   namespace: test
   annotations:
     argocd.argoproj.io/sync-wave: "-300"
@@ -76,7 +76,7 @@ spec:
     - to:
         - namespaceSelector:
             matchLabels:
-              name: dev
+              name: test
           podSelector:
             matchLabels:
               app: device-registration
@@ -86,7 +86,7 @@ spec:
     - to:
         - namespaceSelector:
             matchLabels:
-              name: dev
+              name: test
           podSelector:
             matchLabels:
               app.kubernetes.io/name: postgresql
@@ -97,7 +97,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: device-registration
+  name: device-registration-allow
   namespace: test
   annotations:
     argocd.argoproj.io/sync-wave: "-300"
@@ -112,7 +112,7 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              name: dev
+              name: test
           podSelector:
             matchLabels:
               app: device-statistics
@@ -123,7 +123,7 @@ spec:
     - to:
         - namespaceSelector:
             matchLabels:
-              name: dev
+              name: test
           podSelector:
             matchLabels:
               app.kubernetes.io/name: postgresql
@@ -134,7 +134,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: database-migrations
+  name: database-migrations-allow
   namespace: test
   annotations:
     argocd.argoproj.io/sync-wave: "-300"
@@ -159,7 +159,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: postgresql
+  name: postgresql-allow
   namespace: test
   annotations:
     argocd.argoproj.io/sync-wave: "-300"
@@ -174,16 +174,22 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              name: dev
+              name: test
           podSelector:
             matchLabels:
               app: device-statistics
         - namespaceSelector:
             matchLabels:
-              name: dev
+              name: test
           podSelector:
             matchLabels:
               app: device-registration
+        - namespaceSelector:
+            matchLabels:
+              name: test
+          podSelector:
+            matchLabels:
+              app: database-migrations
       ports:
         - protocol: TCP
           port: 5432
@@ -191,16 +197,22 @@ spec:
     - to:
         - namespaceSelector:
             matchLabels:
-              name: dev
+              name: test
           podSelector:
             matchLabels:
               app: device-statistics
         - namespaceSelector:
             matchLabels:
-              name: dev
+              name: test
           podSelector:
             matchLabels:
               app: device-registration
+        - namespaceSelector:
+            matchLabels:
+              name: test
+          podSelector:
+            matchLabels:
+              app: database-migrations
       ports:
         - protocol: TCP
           port: 5432
