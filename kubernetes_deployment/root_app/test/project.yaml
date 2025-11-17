@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: test
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-400"
+spec:
+  description: Test environment
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: test
+      server: '*'
