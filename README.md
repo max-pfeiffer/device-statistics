@@ -1,6 +1,6 @@
 [![codecov](https://codecov.io/gh/max-pfeiffer/device-statistics/graph/badge.svg?token=1jfd6K3L4s)](https://codecov.io/gh/max-pfeiffer/device-statistics)
 # device-statistics
-
+An example project demonstrating the Kubernetes deployment of a simple FastAPI application.
 
 ## Quick start
 Create .env files in `config` directory according to the examples i.e.,
@@ -28,6 +28,17 @@ The handling of database migrations is controlled with these environment variabl
 
 If you want to rollback migrations to a certain revision, set the rollback to `true` and specify some migration
 revision in `db-alembic.env`.
+
+The quick start is just an easy way to run the set of applications locally. The actual deployment is done on a
+Kubernetes cluster.
+
+## Kubernetes Deployment
+The deployment is done the GitOps way using [ArgoCD](https://argoproj.github.io/cd/). For deploying the applications,
+your cluster needs to fulfill the following pre-requisites:
+* [ArgoCD](https://argoproj.github.io/cd/) installed in `argocd` namespace
+* nginx ingress controller installed in `ingress` namespace
+* a default StorageClass is configured
+* the [External Secrets Operator](https://external-secrets.io/) is installed and configured
 
 ## Local Development
 Setup a virtual environment and install dependencies with [Poetry](https://python-poetry.org/):
