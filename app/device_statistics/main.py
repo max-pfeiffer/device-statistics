@@ -51,4 +51,8 @@ def health_probe() -> ProbeResponse:
     return ProbeResponse(status="healthy")
 
 
+# It's a good practice to always version your APIs. Here it is especially useful
+# as we have mobile apps as clients. With these clients, we cannot control when
+# software updates happen there. So we need to have API versioning as
+# a safeguard, so we are sure not break something when API changes over time.
 app.include_router(api_router, prefix=statistics_application_settings.api_prefix)

@@ -55,7 +55,7 @@ If you happen to have some other secrets operator, i.e. [Hashicorp Vault Secrets
 just fork the repo and add your own matching resources.
 
 ## Local Development
-Set up a virtual environment and install dependencies with [Poetry](https://python-poetry.org/):
+Set up a virtual environment and install dependencies with [Poetry](https://python-poetry.org/) (v2.2.1 or higher):
 ```shell
 poetry install --no-root
 ```

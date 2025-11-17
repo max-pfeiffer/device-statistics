@@ -41,6 +41,11 @@ def create_user_login_event(
     if "login" not in scopes.scopes:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
 
+    # I choose to dispatch a background task here: https://fastapi.tiangolo.com/tutorial/background-tasks/
+    # As we are going here for synchronous messaging with REST API, we do gain a bit
+    # of speed that way. The downside of this is, if the call to device-registration
+    # app errors out, we do not propagate the error to the client. The question is
+    # if this is of importance here. Is the client doing retries on error?
     background_tasks.add_task(
         events.user_login_command, user_login_event.userKey, user_login_event.deviceType
     )
