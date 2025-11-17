@@ -19,7 +19,7 @@ spec:
   source:
     repoURL: https://github.com/max-pfeiffer/device-statistics.git
     path: kubernetes_deployment/helm-charts/ds-app
-    targetRevision: "bugfix/network-policies"
+    targetRevision: "main"
     helm:
       valueFiles:
         - ../../helm-values/dev/ds-app.yaml
