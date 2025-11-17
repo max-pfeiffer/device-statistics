@@ -22,4 +22,4 @@ spec:
     targetRevision: "feature/consolidate-helm-charts"
     helm:
       valueFiles:
-        - ../../helm-values/dev/ds-app.yaml
+        - ../../helm-values/test/ds-app.yaml
