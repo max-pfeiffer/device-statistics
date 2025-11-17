@@ -1,0 +1,181 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: dev
+  annotations:
+    argocd.argoproj.io/sync-wave: "-300"
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: dev
+  annotations:
+    argocd.argoproj.io/sync-wave: "-300"
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - port: 53
+      protocol: UDP
+    - port: 53
+      protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: device-statistics
+  namespace: dev
+  annotations:
+    argocd.argoproj.io/sync-wave: "-300"
+spec:
+  podSelector:
+    matchLabels:
+      app: device-statistics
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 8000
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 8000
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: dev
+          podSelector:
+            matchLabels:
+              app: device-registration
+      ports:
+        - protocol: TCP
+          port: 8000
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: dev
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: postgresql
+      ports:
+        - protocol: TCP
+          port: 5432
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: device-registration
+  namespace: dev
+  annotations:
+    argocd.argoproj.io/sync-wave: "-300"
+spec:
+  podSelector:
+    matchLabels:
+      app: device-registration
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: dev
+          podSelector:
+            matchLabels:
+              app: device-statistics
+      ports:
+        - protocol: TCP
+          port: 8000
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: dev
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: postgresql
+      ports:
+        - protocol: TCP
+          port: 5432
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: postgresql
+  namespace: dev
+  annotations:
+    argocd.argoproj.io/sync-wave: "-300"
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: postgresql
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: dev
+          podSelector:
+            matchLabels:
+              app: device-statistics
+        - namespaceSelector:
+            matchLabels:
+              name: dev
+          podSelector:
+            matchLabels:
+              app: device-registration
+      ports:
+        - protocol: TCP
+          port: 5432
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: dev
+          podSelector:
+            matchLabels:
+              app: device-statistics
+        - namespaceSelector:
+            matchLabels:
+              name: dev
+          podSelector:
+            matchLabels:
+              app: device-registration
+      ports:
+        - protocol: TCP
+          port: 5432
