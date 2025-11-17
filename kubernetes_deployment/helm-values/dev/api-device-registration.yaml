@@ -1,18 +1,18 @@
 replicaCount: 2
 
 image:
-    tag: "0.2.0"
+    tag: "0.3.0"
 
 service:
   port: 8000
 
 livenessProbe:
   httpGet:
-    path: /
+    path: /healthy
     port: 8000
 readinessProbe:
   httpGet:
-    path: /
+    path: /ready
     port: 8000
 
 configMap:
