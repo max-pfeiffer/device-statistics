@@ -50,9 +50,16 @@ class JwtBearerAuth(HTTPBearer):
             else:
                 return None
 
-        # Decode and verify the token contained in credentials
+        # Decode and verify the token contained in credentials.
+        # Usually you would load and cache the public key from your IDPs
+        # (i.e. Keycloak) API endpoint and cache it.
         public_key = statistics_application_settings.idp_public_key
         iss_value = statistics_application_settings.idp_iss
+
+        # We are validating the claims now. This is just a sample implementation
+        # for demonstration purposes as claims are very specific to IDP and
+        # software you use. Usually you need to validate much more here
+        # i.e. validity period etc.
         claim_opts = {}
         claim_opts["iss"] = {"essential": True, "value": iss_value}
         try:
