@@ -4,6 +4,8 @@ kind: ConfigMap
 metadata:
   name: device-statistics
   namespace: test
+  annotations:
+    argocd.argoproj.io/sync-wave: "-300"
 data:
     DATABASE_NAME: "devicestatistics"
     DATABASE_HOST: "postgresql"
@@ -19,6 +21,8 @@ kind: ConfigMap
 metadata:
   name: device-registration
   namespace: test
+  annotations:
+    argocd.argoproj.io/sync-wave: "-300"
 data:
     DATABASE_NAME: "devicestatistics"
     DATABASE_HOST: "postgresql"
@@ -32,6 +36,8 @@ kind: ConfigMap
 metadata:
   name: database-migrations
   namespace: test
+  annotations:
+    argocd.argoproj.io/sync-wave: "-300"
 data:
     DATABASE_NAME: "devicestatistics"
     DATABASE_HOST: "postgresql"
