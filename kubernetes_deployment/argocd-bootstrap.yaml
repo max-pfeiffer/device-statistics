@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: https://github.com/max-pfeiffer/device-statistics.git
     path: kubernetes_deployment/root_app
-    targetRevision: "main"
+    targetRevision: "bugfix/network-policies"
     directory:
       recurse: true
   syncPolicy:

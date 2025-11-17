@@ -40,7 +40,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: device-statistics
+  name: device-statistics-allow
   namespace: dev
   annotations:
     argocd.argoproj.io/sync-wave: "-300"
@@ -97,7 +97,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: device-registration
+  name: device-registration-allow
   namespace: dev
   annotations:
     argocd.argoproj.io/sync-wave: "-300"
@@ -134,7 +134,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: database-migrations
+  name: database-migrations-allow
   namespace: dev
   annotations:
     argocd.argoproj.io/sync-wave: "-300"
@@ -159,7 +159,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: postgresql
+  name: postgresql-allow
   namespace: dev
   annotations:
     argocd.argoproj.io/sync-wave: "-300"
@@ -184,6 +184,12 @@ spec:
           podSelector:
             matchLabels:
               app: device-registration
+        - namespaceSelector:
+            matchLabels:
+              name: dev
+          podSelector:
+            matchLabels:
+              app: database-migrations
       ports:
         - protocol: TCP
           port: 5432
@@ -201,6 +207,12 @@ spec:
           podSelector:
             matchLabels:
               app: device-registration
+        - namespaceSelector:
+            matchLabels:
+              name: dev
+          podSelector:
+            matchLabels:
+              app: database-migrations
       ports:
         - protocol: TCP
           port: 5432

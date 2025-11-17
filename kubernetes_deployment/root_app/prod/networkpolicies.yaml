@@ -184,6 +184,12 @@ spec:
           podSelector:
             matchLabels:
               app: device-registration
+        - namespaceSelector:
+            matchLabels:
+              name: dev
+          podSelector:
+            matchLabels:
+              app: database-migrations
       ports:
         - protocol: TCP
           port: 5432
@@ -201,6 +207,12 @@ spec:
           podSelector:
             matchLabels:
               app: device-registration
+        - namespaceSelector:
+            matchLabels:
+              name: dev
+          podSelector:
+            matchLabels:
+              app: database-migrations
       ports:
         - protocol: TCP
           port: 5432
